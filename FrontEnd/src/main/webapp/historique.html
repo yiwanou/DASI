@@ -43,9 +43,40 @@
           <p>这是历史记录 2 的详细信息。</p>
         </div>
       </div>
-      <!-- 更多历史记录条目 -->
+
+      <h1>Student Intervention History</h1>
+      <button id="fetchInterventions">Fetch Interventions</button>
+      <div id="interventions"></div>
     </div>
     <script>
+      document
+        .getElementById("fetchInterventions")
+        .addEventListener("click", function () {
+          fetch("path_to_your_servlet")
+            .then((response) => response.json())
+            .then((data) => {
+              const interventionsDiv = document.getElementById("interventions");
+              interventionsDiv.innerHTML = "";
+
+              if (data.intervention) {
+                const interventions = data.intervention;
+                interventions.forEach((intervention) => {
+                  const interventionDiv = document.createElement("div");
+                  interventionDiv.innerHTML = `
+                        <p>Intervenant: ${intervention.intervenant}</p>
+                        <p>Matiere: ${intervention.matiere}</p>
+                    `;
+                  interventionsDiv.appendChild(interventionDiv);
+                });
+              } else {
+                interventionsDiv.innerHTML = "<p>No interventions found.</p>";
+              }
+            })
+            .catch((error) =>
+              console.error("Error fetching interventions:", error)
+            );
+        });
+
       // script.js
       function toggleDetails(element) {
         element.classList.toggle("active");
