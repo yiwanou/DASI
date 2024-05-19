@@ -3,9 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Visio</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="custom-styles.css" />
+    <title>历史记录显示</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/minty/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="sidebar">
@@ -22,15 +25,31 @@
         <a href="inscription.html">Visio</a>
       </button>
     </div>
+
     <div class="content">
-      <h1>Session de Visio</h1>
-      <div class="visio-session">
-        <p>Intervenant: M. Dupont</p>
-        <p>Matière: Mathématiques</p>
-        <p>Description: Aide avec les devoirs de géométrie.</p>
-        <button id="startVisio">Lancer la Visioconférence</button>
+      <div class="history-item" onclick="toggleDetails(this)">
+        <div class="history-summary">
+          <p>历史记录 1</p>
+        </div>
+        <div class="history-details">
+          <p>这是历史记录 1 的详细信息。</p>
+        </div>
       </div>
+      <div class="history-item" onclick="toggleDetails(this)">
+        <div class="history-summary">
+          <p>历史记录 2</p>
+        </div>
+        <div class="history-details">
+          <p>这是历史记录 2 的详细信息。</p>
+        </div>
+      </div>
+      <!-- 更多历史记录条目 -->
     </div>
-    <script src="script.js"></script>
+    <script>
+      // script.js
+      function toggleDetails(element) {
+        element.classList.toggle("active");
+      }
+    </script>
   </body>
 </html>

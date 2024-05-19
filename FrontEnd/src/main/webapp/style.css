@@ -11,6 +11,7 @@ button a {
   text-decoration: none;
   color: white;
 }
+/* Sidebar */
 
 .sidebar {
   height: 100%;
@@ -44,4 +45,24 @@ button a {
 .content {
   margin-left: 200px;
   padding: 20px;
+}
+/* history */
+
+.history-item {
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.history-summary {
+    font-weight: bold;
+}
+
+.history-details {
+    display: none;
+    margin-top: 10px;
+}
+
+.history-item.active .history-details {
+    display: block;
 }
