@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Connexion</title>
+    <!-- Librairie Javascript: jQuery (v3.4.1) -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/minty/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <style>
+      a {
+        text-decoration: none;
+        color: white;
+      }
+      body {
+        margin: 20px;
+        padding: 0;
+      }
+      h1 {
+        text-align: center;
+      }
+      div {
+        margin: 0px 30;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>INSTRUCT'IF</h1>
+    <h2>Connexion</h2>
+
+    <!-- Paragraphe avec id="notification" pour les messages de notification -->
+    <p id="notification">
+      Veuillez saisir votre identifiant (adresse mail) et votre mot de passe.
+    </p>
+    <div>
+      <div>
+        <label class="col-form-label mt-4" for="inputDefault"
+          >Identifiant:</label
+        >
+        <input type="text" class="form-control" id="champ-login" />
+
+        <label class="col-form-label mt-4" for="inputDefault"
+          >Mot de passe:</label
+        >
+        <input type="password" class="form-control" id="champ-password" />
+      </div>
+
+      <div>
+        <input
+          class="form-check-input"
+          type="radio"
+          id="champ-eleve"
+          name="interface"
+          value="eleve"
+        />
+        <label class="form-check-lable" for="coding">Elève</label>
+        <input
+          class="form-check-input"
+          type="radio"
+          id="champ-intervenant"
+          name="interface"
+          value="intervenant"
+        />
+        <label class="form-check-lable" for="coding">Intervenant</label>
+      </div>
+    </div>
+
+    <br />
+
+    <button class="btn btn-primary" id="bouton-connexion">Se connecter</button>
+
+    <button class="btn btn-secondary" id="bouton-inscription">
+      <a href="inscription.html">S'inscrire en tant qu'élève</a>
+    </button>
+
+    <!-- Lien vers l'accueil -->
+    <p><a href="index.html">Retour à la page d'Accueil</a></p>
+    <script>
+      $(document).ready(function () {
+        $("#bouton-connexion").on("click", function () {
+          // Fonction appelée lors du clic sur le bouton
+
+          console.log("clic sur le bouton de connexion"); // LOG dans Console Javascript
+          $("#notification").html("Connexion..."); // Message pour le paragraphe de notification
+
+          // Récupération de la valeur des champs du formulaire
+          var champLogin = $("#champ-login").val();
+          var champPassword = $("#champ-password").val();
+          var champUtilisateur = document.querySelector(
+            'input[name="interface"]:checked'
+          ).value;
+
+          // Appel AJAX
+          $.ajax({
+            url: "./ActionServlet",
+            method: "POST",
+            data: {
+              todo: "connecter",
+              login: champLogin,
+              password: champPassword,
+              interface: champUtilisateur,
+            },
+            dataType: "json",
+          })
+            .done(function (response) {
+              // Fonction appelée en cas d'appel AJAX réussi
+              console.log("Response", response); // LOG dans Console Javascript
+              if (response.connexion) {
+                window.location.href = "accueilEleve.html";
+                //$("html").load("accueilEleve.html");
+                //$('#notification').html("Connexion de " + response.eleve.prenom.toUpperCase() + " " + response.eleve.nom.toUpperCase() + " (ID " + response.eleve.id + ")");  // Message pour le paragraphe de notification
+                // TODO: afficher les informations du client dans la notification
+                // Exemple: Connexion de Ada Lovelace (ID 1)
+              } else {
+                $("#notification").html("Erreur de Connexion"); // Message pour le paragraphe de notification
+              }
+            })
+            .fail(function (error) {
+              // Fonction appelée en cas d'erreur lors de l'appel AJAX
+              console.log("Error", error); // LOG dans Console Javascript
+              alert("Erreur lors de l'appel AJAX");
+            })
+            .always(function () {
+              // Fonction toujours appelée
+            });
+        });
+      });
+    </script>
+  </body>
+</html>

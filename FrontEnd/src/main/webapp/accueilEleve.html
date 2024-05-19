@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accueil Eleve</title>
+    <!-- Librairie Javascript: jQuery (v3.4.1) -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/minty/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="sidebar">
+      <button id="pageAccueil" class="nav-button">
+        <a href="accueilEleve.html">Accueil</a>
+      </button>
+      <button id="pageNouvelleDemande" class="nav-button">
+        <a href="nouvelleDemande.html">Nouvelle Demande</a>
+      </button>
+      <button id="pageHistorique" class="nav-button">
+        <a href="inscription.html">Historique</a>
+      </button>
+      <button id="pageVisio" class="nav-button">
+        <a href="inscription.html">Visio</a>
+      </button>
+    </div>
+
+    <div class="content">
+      <h1>INSTRUCT'IF</h1>
+      <h2>Accueil Élève</h2>
+      <div id="notification"></div>
+      <button id="bouton-notification">Notifications</button>
+      <button id="nouvelleDemandeBtn">Nouvelle demande</button>
+      <button id="historiqueBtn">Historique des soutiens</button>
+      <br />
+    </div>
+
+    <script src="acueilEleve.js"></script>
+  </body>
+</html>

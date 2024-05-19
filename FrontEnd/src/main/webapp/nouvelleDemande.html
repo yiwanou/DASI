@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Nouvelle Demande</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/minty/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css">
+    <!-- Librairie Javascript: jQuery (v3.4.1) -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+   
+    </style>
+  </head>
+  <body>
+    <div class="sidebar">
+      <button id="pageAccueil" class="nav-button">
+        <a href="accueilEleve.html">Accueil</a>
+      </button>
+      <button id="pageNouvelleDemande" class="nav-button">
+        <a href="nouvelleDemande.html">Nouvelle Demande</a>
+      </button>
+      <button id="pageHistorique" class="nav-button">
+        <a href="historique.html">Historique</a>
+      </button>
+      <button id="pageVisio" class="nav-button">
+        <a href="visio.html">Visio</a>
+      </button>
+    </div>
+
+    <div class="content">
+      <div>
+        <h1>INSTRUCT'IF</h1>
+        <h2>Nouvelle Demande</h2>
+
+        <p id="notification">
+          Veuillez faire une nouvelle demande d'intervention.
+        </p>
+        <div>
+          <label for="matiere">Matière :</label>
+          <select class="form-select" id="matiere" name="matiere">
+            <option value="">Sélectionnez une matière</option>
+          </select>
+        </div>
+        <div>
+          <label for="description">Description :</label>
+          <textarea
+            class="form-control"
+            id="description"
+            name="description"
+          ></textarea>
+          <button class="btn btn-primary" id="envoyerDemandeBtn">
+            Envoyer
+          </button>
+        </div>
+      </div>
+
+      <br />
+
+      <div>
+        <button class="btn btn-primary" id="pageAccueil">
+          <a href="accueilEleve.html">Accueil</a>
+        </button>
+        <button class="btn btn-primary" id="pageNouvelleDemande">
+          <a href="inscription.html">Nouvelle Demande</a>
+        </button>
+        <button class="btn btn-primary" id="pageHistorique">
+          <a href="inscription.html">Historique</a>
+        </button>
+        <button class="btn btn-primary" id="pageVisio">
+          <a href="inscription.html">Visio</a>
+        </button>
+      </div>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        $("#notification").html("Chargement des matières..."); // Message pour le paragraphe de notification
+
+        // Appel AJAX
+        $.ajax({
+          url: "./ActionServlet",
+          method: "POST",
+          data: {
+            todo: "chargerListeMatieres",
+          },
+          dataType: "json",
+        })
+          .done(function (response) {
+            let matieres = response.matieres;
+            if (response.marche) {
+              $("#notification").html("");
+              let selectElement = $("#matiere"); // Sélectionnez la liste déroulante par son ID
+              selectElement.empty(); // Videz la liste déroulante actuelle
+
+              // Parcourez les matières et ajoutez-les à la liste déroulante
+              matieres.forEach(function (matiere) {
+                selectElement.append(
+                  $("<option>", {
+                    value: matiere.id, // Supposons que chaque matière a un ID
+                    text: matiere.nom, // Supposons que le nom de la matière est stocké dans la propriété "nom"
+                  })
+                );
+              });
+            } else {
+              $("#notification").html("Erreur de chargement des matières...");
+            }
+          })
+
+          .fail(function (error) {
+            // Fonction appelée en cas d'erreur lors de l'appel AJAX
+            console.log("Error", error); // LOG dans Console Javascript
+            alert("Erreur lors de l'appel AJAX");
+          })
+          .always(function () {
+            // Fonction toujours appelée
+          });
+      });
+
+      $(document).ready(function () {
+        $("#envoyerDemandeBtn").on("click", function () {
+          // Fonction appelée lors du clic sur le bouton
+
+          console.log("Traitement de la demande d'intervention "); // LOG dans Console Javascript
+          $("#notification").html(
+            "Traitement de la demande d'intervention en cours..."
+          ); // Message pour le paragraphe de notification
+          var champDescription = $("#description").val();
+          var champMatiere = $("#matiere").val();
+          // Appel AJAX
+          $.ajax({
+            url: "./ActionServlet",
+            method: "POST",
+            data: {
+              todo: "demanderIntervention",
+              matiere: champMatiere,
+              description: champDescription,
+            },
+            dataType: "json",
+          })
+            .done(function (response) {
+              // Fonction appelée en cas d'appel AJAX réussi
+              console.log("Response", response); // LOG dans Console Javascript
+              if (response.accepte) {
+                $("#notification").html("Redirection vers la fenêtre visio..."); // Message pour le paragraphe de notification
+                window.location.href = "accueilEleve.html";
+              } else {
+                $("#notification").html(
+                  "Redirection vers la fenêtre d'accueil, intervenant pas trouvé"
+                ); // Message pour le paragraphe de notification
+              }
+            })
+            .fail(function (error) {
+              // Fonction appelée en cas d'erreur lors de l'appel AJAX
+              console.log("Error", error); // LOG dans Console Javascript
+              alert("Erreur lors de l'appel AJAX");
+            })
+            .always(function () {
+              // Fonction toujours appelée
+            });
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,47 @@
+
+
+h1 {
+  text-align: center;
+}
+div {
+  margin: 20px;
+}
+
+button a {
+  text-decoration: none;
+  color: white;
+}
+
+.sidebar {
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #5a995c;
+  padding-top: 20px;
+}
+
+.sidebar button {
+  display: block;
+  color: white;
+  background-color: #5a995c;
+  padding: 16px;
+  text-align: left;
+  border: none;
+  width: 100%;
+  text-decoration: none;
+}
+
+.sidebar button:hover {
+  background-color: #575757;
+}
+
+.sidebar button.active {
+  background-color: #41a98e;
+}
+
+.content {
+  margin-left: 200px;
+  padding: 20px;
+}
