@@ -88,9 +88,7 @@ public class ActionServlet extends HttpServlet {
                     break;
                 }
                 case "inscrire": {
-                    System.out.println("ok");
                     new InscrireEleveAction().execute(request);
-                    System.out.println("ok2");
                     Boolean inscription = (Boolean) request.getAttribute("inscription");
                     if (inscription == true) {
                         System.out.println("eleve inscrit");
@@ -131,6 +129,11 @@ public class ActionServlet extends HttpServlet {
                         System.out.println("Pas d'intervenant trouvé");
                     }
                     new DemandeInterventionSerialisation().appliquer(request, response);
+                    break;
+                }
+                case "historiqueEleve": {
+                    new HistoriqueEleveAction().execute(request);
+                    new HistoriqueEleveSerialisation().appliquer(request, response);
                     break;
                 }
             }

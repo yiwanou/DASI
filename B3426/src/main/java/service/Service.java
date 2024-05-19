@@ -57,13 +57,13 @@ public class Service {
         } finally {
             JpaUtil.fermerContextePersistance();
         }
-        if (eleve == null) {
-
-            Message.envoyerMail("contact@instructif", eleve.getMail(), "Echec de l'inscription sur le reseaux INSTRUCT'IF", "Bonjour " + eleve.getPrenom() + ", Ton inscription sur le reseau INSTRUCT'IF a malencontreusement echoue... Merci de reessayer ulterieurement");
-        } else {
-
-            Message.envoyerMail("contact@instructif", eleve.getMail(), "Bienvenue  sur le reseaux INSTRUCT'IF", "Bonjour " + eleve.getPrenom() + ", nous te confirmons ton inscription sur le reseau INSTRUCT'IF . Si tu as besoin d'un soutien pour tes lecons ou tes devoirs, rends-toi sur notre site pour une mise en relation avec un intervenant");
-        }
+//        if (eleve == null) {
+//
+//            Message.envoyerMail("contact@instructif", eleve.getMail(), "Echec de l'inscription sur le reseaux INSTRUCT'IF", "Bonjour " + eleve.getPrenom() + ", Ton inscription sur le reseau INSTRUCT'IF a malencontreusement echoue... Merci de reessayer ulterieurement");
+//        } else {
+//
+//            Message.envoyerMail("contact@instructif", eleve.getMail(), "Bienvenue  sur le reseaux INSTRUCT'IF", "Bonjour " + eleve.getPrenom() + ", nous te confirmons ton inscription sur le reseau INSTRUCT'IF . Si tu as besoin d'un soutien pour tes lecons ou tes devoirs, rends-toi sur notre site pour une mise en relation avec un intervenant");
+//        }
         return eleve;
     }
 

@@ -1,16 +1,4 @@
-// Get all buttons with class="nav-button"
-var buttons = document.getElementsByClassName("nav-button");
 
-// Loop through the buttons and add the active class to the current/clicked button
-for (var i = 0; i < buttons.length; i++) {
-  buttons[i].addEventListener("click", function () {
-    var current = document.getElementsByClassName("active");
-    if (current.length > 0) {
-      current[0].className = current[0].className.replace(" active", "");
-    }
-    this.className += " active";
-  });
-}
 
 $(document).ready(function () {
   $("#bouton-notification").on("click", function () {
