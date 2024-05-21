@@ -138,6 +138,27 @@ public class ActionServlet extends HttpServlet {
                     new HistoriqueEleveSerialisation().appliquer(request, response);
                     break;
                 }
+                case "noter": {
+                    new AutoEvaulationAction().execute(request);
+                    new AutoEvaulationSerialisation().appliquer(request, response);
+                    break;
+                }
+
+                case "commenceVisio"
+                : {
+                    new VisioCommenceAction().execute(request);
+                    new VisioCommenceSerialisation().appliquer(request, response);
+                    System.out.println("Visio commencée" + request.getAttribute("isStart"));
+                    break;
+                }
+
+                case "termineVisio"
+                : {
+                    new VisioTermineAction().execute(request);
+                    new VisioTermineSerialisation().appliquer(request, response);
+                    System.out.println("Visio terminée" + request.getAttribute("isEnd"));
+                    break;
+                }
             }
 
         }

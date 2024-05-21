@@ -2,65 +2,121 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Auto Evaluation</title>
+    <title>Inscription</title>
+    <!-- Librairie Javascript: jQuery (v3.4.1) -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/minty/bootstrap.min.css"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   </head>
   <body>
+    <!-- Champs et Bouton de Formulaire -->
     <div>
-      <h2>Auto Evaluation</h2>
-      <form id="autoEvaluationForm">
-        <label for="note">Rate the intervention (1-10):</label>
-        <input type="number" id="note" name="note" min="1" max="10" required />
+      <h1>INSTRUCT'IF</h1>
+      <h2>Inscription</h2>
 
-        <button type="submit" id="submit-button" class="btn-primary">Submit</button>
+      <!-- Paragraphe avec id="notification" pour les messages de notification -->
+      <p id="notification">Veuillez saisir vos informations personnelles.</p>
+      <form>
+        <div>
+          <label for="name">Prénom:</label>
+          <input type="text" id="prenom" name="prenom" /><br />
+        </div>
+
+        <div>
+          <label for="name">Nom:</label>
+          <input type="text" id="nom" name="nom" /><br />
+        </div>
+
+        <div>
+          <label for="birthdate">Date de naissance:</label>
+          <input type="date" id="naissance" name="naissance" /><br />
+        </div>
+
+        <div>
+          <label for="schoolcode">Code Etablissement:</label>
+          <input type="text" id="schoolcode" name="schoolcode" /><br />
+        </div>
+
+        <div>
+          <label for="grade">Niveau:</label>
+          <input type="text" id="niveau" name="niveau" /><br />
+        </div>
+
+        <div>
+          <label for="email">Email:</label>
+          <input type="text" id="email" name="email" /><br />
+        </div>
+
+        <div>
+          <label for="password">Mot De Passe:</label>
+          <input type="password" id="password" name="password" /><br />
+        </div>
       </form>
-      <p id="notification"></p>
+    </div>
+
+    <div class="btn-container">
+      <button class="btn-primary" id="bouton-inscription">S'inscrire</button>
+      <!-- Lien vers l'accueil -->
+      <button class="btn-primary">
+        <a href="index.html">Retour à la page d'Accueil</a>
+      </button>
     </div>
 
     <script>
       $(document).ready(function () {
-        $("#submit-button").on("click", function (event) {
-          // Prevent default form submission
-          event.preventDefault();
+        $("#bouton-inscription").on("click", function () {
+          // Fonction appelée lors du clic sur le bouton
 
-          console.log("Click on the submit button"); // LOG in Javascript Console
-          $("#notification").html("Submitting..."); // Message for the notification paragraph
+          console.log("clic sur le bouton d'inscription"); // LOG dans Console Javascript
+          $("#notification").html("Inscription..."); // Message pour le paragraphe de notification
 
-          // Retrieve the value of the form field
-          var note = $("#note").val();
+          // Récupération de la valeur des champs du formulaire
+          var champNom = $("#nom").val();
+          var champPrenom = $("#prenom").val();
+          var champMail = $("#email").val();
+          var champNaissance = $("#naissance").val();
+          var champNiveau = $("#niveau").val();
+          var champCode = $("#schoolcode").val();
+          var champPassword = $("#champ-password").val();
 
-          // AJAX call
+          // Appel AJAX
           $.ajax({
             url: "./ActionServlet",
             method: "POST",
             data: {
-              todo: "noter",
-              note: note,
+              todo: "inscrire",
+              nom: champNom,
+              prenom: champPrenom,
+              mail: champMail,
+              naissance: champNaissance,
+              niveau: champNiveau,
+              code: champCode,
+              password: champPassword,
             },
             dataType: "json",
           })
             .done(function (response) {
-              // Function called in case of successful AJAX call
-              console.log("Response", response); // LOG in Javascript Console
-              if (response.success) {
+              // Fonction appelée en cas d'appel AJAX réussi
+              console.log("Response", response); // LOG dans Console Javascript
+              if (response.inscription) {
                 window.location.href = "accueilEleve.html";
+                //$('#notification').html("Inscription de " + response.eleve.prenom.toUpperCase() + " " + response.eleve.nom.toUpperCase() + " (ID " + response.eleve.id + ")");  // Message pour le paragraphe de notification
+                // TODO: afficher les informations du client dans la notification
+                // Exemple: Connexion de Ada Lovelace (ID 1)
               } else {
-                $("#notification").html("Error in evaluation submission"); // Message for the notification paragraph
+                $("#notification").html("Erreur d'inscription"); // Message pour le paragraphe de notification
               }
             })
             .fail(function (error) {
-              // Function called in case of AJAX call error
-              console.log("Error", error); // LOG in Javascript Console
-              alert("Error during the AJAX call");
+              // Fonction appelée en cas d'erreur lors de l'appel AJAX
+              console.log("Error", error); // LOG dans Console Javascript
+              alert("Erreur lors de l'appel AJAX");
             })
             .always(function () {
-              // Function always called
+              // Fonction toujours appelée
             });
         });
       });

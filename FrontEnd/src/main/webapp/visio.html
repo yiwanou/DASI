@@ -43,79 +43,81 @@
     </div>
 
     <script>
-      let localStream;
-      let remoteStream;
-      let peerConnection;
-      const configuration = {
-        iceServers: [
-          {
-            urls: "stun:stun.l.google.com:19302",
-          },
-        ],
-      };
-
       $(document).ready(function () {
-        $("#startCall").on("click", async function () {
-          $("#notification").html("Démarrage de l'appel...");
-          startCall();
+        $("#startCall").on("click", function (event) {
+          // Prevent default button action
+          event.preventDefault();
+
+          console.log("Click on the startCall button"); // LOG in Javascript Console
+          $("#notification").html("Commencer l'appel..."); // Message for the notification paragraph
+
+          // AJAX call to start the visio session
+          $.ajax({
+            url: "./ActionServlet",
+            method: "POST",
+            data: {
+              todo: "commenceVisio",
+              // Include any other data required by the server here
+            },
+            dataType: "json",
+          })
+            .done(function (response) {
+              // Function called in case of successful AJAX call
+              console.log("Response", response); // LOG in Javascript Console
+              if (response.success) {
+                $("#notification").html("Visio started successfully."); // Message for the notification paragraph
+                // Additional logic to handle the video stream setup can be added here
+              } else {
+                $("#notification").html("Error starting visio."); // Message for the notification paragraph
+              }
+            })
+            .fail(function (error) {
+              // Function called in case of AJAX call error
+              console.log("Error", error); // LOG in Javascript Console
+              alert("Error during the AJAX call");
+            })
+            .always(function () {
+              // Function always called
+            });
         });
 
-        $("#hangUpCall").on("click", function () {
-          $("#notification").html("Appel terminé.");
-          hangUpCall();
+        $("#hangUpCall").on("click", function (event) {
+          // Prevent default button action
+          event.preventDefault();
+
+          console.log("Click on the hangUpCall button"); // LOG in Javascript Console
+          $("#notification").html("Terminer l'appel..."); // Message for the notification paragraph
+
+          // AJAX call to end the visio session
+          $.ajax({
+            url: "./ActionServlet",
+            method: "POST",
+            data: {
+              todo: "termineVisio",
+              // Include any other data required by the server here
+            },
+            dataType: "json",
+          })
+            .done(function (response) {
+              // Function called in case of successful AJAX call
+              console.log("Response", response); // LOG in Javascript Console
+              if (response.success) {
+                $("#notification").html("Visio ended successfully."); // Message for the notification paragraph
+                window.location.href = "accueilEleve.html"; // Redirect to home page after ending the call
+              } else {
+                $("#notification").html("Error ending visio."); // Message for the notification paragraph
+              }
+            })
+            .fail(function (error) {
+              // Function called in case of AJAX call error
+              console.log("Error", error); // LOG in Javascript Console
+              alert("Error during the AJAX call");
+            })
+            .always(function () {
+              // Function always called
+            });
         });
       });
-
-      async function startCall() {
-        localStream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-          audio: true,
-        });
-        document.getElementById("localVideo").srcObject = localStream;
-
-        peerConnection = new RTCPeerConnection(configuration);
-        localStream
-          .getTracks()
-          .forEach((track) => peerConnection.addTrack(track, localStream));
-
-        peerConnection.ontrack = (event) => {
-          remoteStream = event.streams[0];
-          document.getElementById("remoteVideo").srcObject = remoteStream;
-        };
-
-        peerConnection.onicecandidate = (event) => {
-          if (event.candidate) {
-            sendIceCandidate(event.candidate);
-          }
-        };
-
-        const offer = await peerConnection.createOffer();
-        await peerConnection.setLocalDescription(offer);
-        sendOffer(offer);
-      }
-
-      function hangUpCall() {
-        peerConnection.close();
-        localStream.getTracks().forEach((track) => track.stop());
-        document.getElementById("localVideo").srcObject = null;
-        document.getElementById("remoteVideo").srcObject = null;
-      }
-
-      function sendOffer(offer) {
-        // Implement the function to send the offer to the remote peer
-      }
-
-      function sendIceCandidate(candidate) {
-        // Implement the function to send the ICE candidate to the remote peer
-      }
-
-      function handleRemoteAnswer(answer) {
-        peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
-      }
-
-      function handleRemoteIceCandidate(candidate) {
-        peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
-      }
     </script>
   </body>
 </html>
