@@ -131,8 +131,10 @@ public class ActionServlet extends HttpServlet {
                     new DemandeInterventionSerialisation().appliquer(request, response);
                     break;
                 }
-                case "historiqueEleve": {
+                case "getHistoriqueEleve": {
+
                     new HistoriqueEleveAction().execute(request);
+                    System.out.println("Historique Eleve" + request.getAttribute("eleveHistorique"));
                     new HistoriqueEleveSerialisation().appliquer(request, response);
                     break;
                 }

@@ -36,9 +36,17 @@ public class HistoriqueEleveSerialisation {
             JsonArray jsonListeInterventions = new JsonArray();
             for (Intervention intervention  : liste) {
                 JsonObject jsonintervention = new JsonObject();
-//                jsonintervention.addProperty("date", intervention.getDate());
-                jsonintervention.addProperty("intervenant", intervention.getIntervenant().getNom());
                 jsonintervention.addProperty("matiere", intervention.getMatiere().getNom());
+                jsonintervention.addProperty("intervenant", intervention.getIntervenant().getNom());
+                
+                jsonintervention.addProperty("matiere", intervention.getMatiere().getNom());
+                jsonintervention.addProperty("date", intervention.getDate().toString());
+                jsonintervention.addProperty("id", intervention.getId());
+                jsonintervention.addProperty("duree", intervention.getDuree());
+                jsonintervention.addProperty("statut", intervention.getStatut().toString());
+                jsonintervention.addProperty("commentaire", intervention.getCommentaire());
+                jsonintervention.addProperty("bilan", intervention.getBilan());
+                jsonintervention.addProperty("intervenant", intervention.getIntervenant().getNom());
                 
                 jsonListeInterventions.add(jsonintervention);
             }
