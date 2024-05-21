@@ -8,6 +8,14 @@ div {
 button a {
   color: white;
 }
+body
+{
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f1f1f1;
+  font-size: 20px;
+}
 /* Sidebar */
 
 .sidebar {
@@ -79,3 +87,15 @@ button a {
   text-align: center;
   margin: 20px;
 }
+/* auto evaluate */
+
+.auto-evaluate {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.auto-evaluate button {
+  text-align: center;
+  cursor: pointer;
+}
+
